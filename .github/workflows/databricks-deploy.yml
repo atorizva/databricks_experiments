@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Verify Databricks Asset Bundle
+    name: Validate Databricks Asset Bundle
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -31,6 +31,10 @@ jobs:
       - name: Install Databricks CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-      - name: Verify DAB
+      - name: Validate DAB
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
         run: |
           databricks bundle validate -t dev
