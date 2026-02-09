@@ -24,6 +24,7 @@ jobs:
   verify:
     name: Verify Databricks Asset Bundle
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
