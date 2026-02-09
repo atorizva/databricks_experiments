@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Deployment target"
+        description: 'Deployment target'
         required: true
-        default: "dev"
+        default: 'dev'
         type: choice
         options:
           - dev
