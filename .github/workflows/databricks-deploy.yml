@@ -25,6 +25,7 @@ jobs:
     name: Validate Databricks Asset Bundle
     runs-on: ubuntu-latest
     environment: dev
+    if: github.event_name == 'pull_request'  # Only run in PRs
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -38,3 +39,22 @@ jobs:
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
         run: |
           databricks bundle validate -t dev
+  deploy:
+    name: Deploy Databricks Asset Bundle
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'dev' }}
+    if: github.event_name != 'pull_request'  # Only run if not a PR
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      - name: Deploy DAB
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          TARGET_ENV: ${{ github.event.inputs.environment || 'dev' }} 
+        run: |
+          databricks bundle deploy - t $TARGET_ENV
