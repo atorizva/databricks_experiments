@@ -57,4 +57,4 @@ jobs:
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
           TARGET_ENV: ${{ github.event.inputs.environment || 'dev' }} 
         run: |
-          databricks bundle deploy - t $TARGET_ENV
+          databricks bundle deploy -t $TARGET_ENV
