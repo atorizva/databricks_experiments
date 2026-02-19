@@ -37,5 +37,5 @@ targets:
       catalog: workspace
       schema: prod
     permissions:
-      - service_principal_name: 49a3392f-a177-451d-b696-b004d4979aa6
+      - group_name: workspace_deployers
         level: CAN_MANAGE
